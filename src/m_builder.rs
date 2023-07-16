@@ -56,23 +56,56 @@ impl Default for EmployeeBuilder {
 
 impl EmployeeBuilder {
 	pub fn name(self, name: String) -> Self {
-		todo!("finish the implementation.");
+		Self {
+			name: Some(name),
+			uid: self.uid,
+			wage: self.wage,
+			experience: self.experience,
+		}
+		
 	}
 
 	pub fn uid(self, uid: u32) -> Self {
-		todo!("finish the implementation.");
+		Self {
+			name: self.name,
+			uid: Some(uid),
+			wage: self.wage,
+			experience: self.experience,
+		}
 	}
 
 	pub fn experience(self, experience: u32) -> Self {
-		todo!("finish the implementation.");
+		Self {
+			name: self.name,
+			uid: self.uid,
+			wage: self.wage,
+			experience: experience,
+		}
 	}
 
 	pub fn wage(self, wage: u32) -> Self {
-		todo!("finish the implementation.");
+		Self {
+			name: self.name,
+			uid: self.uid,
+			wage: wage,
+			experience: self.experience,
+		}
 	}
 
 	pub fn build(self) -> Result<Employee, ()> {
-		todo!("finish the implementation.");
+		// If we don't have these we can not build 
+		if self.name == None || self.uid == None {
+			Err(())
+		}
+		else {
+			Ok(Employee {
+				name: self.name.unwrap(), 
+				uid: self.uid.unwrap(),
+				experience: self.experience,
+				wage: self.wage
+			})
+			
+		}
 	}
 }
 
