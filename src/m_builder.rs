@@ -171,6 +171,7 @@ pub struct UnIdentified;
 /// 	let success = TypedEmployeeBuilder::default().uid(42).build();
 /// # }
 /// ```
+// The typedEmployeeBuilder has these generic types Name and Id 
 pub struct TypedEmployeeBuilder<Name, Id> {
 	experience: u32,
 	wage: u32,
@@ -190,24 +191,52 @@ impl Default for TypedEmployeeBuilder<NotNamed, UnIdentified> {
 }
 
 impl<Name, Id> TypedEmployeeBuilder<Name, Id> {
-	pub fn name(self, name: String) -> Self {
-		todo!("finish the implementation. Note that you might need to move some of these functions to a new `impl` blocks with different trait bounds, or change the return type to use `Named` etc.");
+	// this method starts from an generic struct to one with Named
+	pub fn name(self, name: String) -> TypedEmployeeBuilder<Named , Id> {
+		TypedEmployeeBuilder {
+			name: Named{ name },
+			uid: self.uid,
+			wage: self.wage,
+			experience: self.experience,
+		}
 	}
 
-	pub fn uid(self, uid: u32) -> Self {
-		todo!("finish the implementation. Note that you might need to move some of these functions to a new `impl` blocks with different trait bounds, or change the return type to use `Named` etc.");
+	pub fn uid(self, uid: u32) -> TypedEmployeeBuilder<Name, Identified> {
+		TypedEmployeeBuilder {
+			name: self.name,
+			uid: Identified { uid },
+			wage: self.wage,
+			experience: self.experience,
+		}
 	}
 
 	pub fn experience(self, experience: u32) -> Self {
-		todo!("finish the implementation. Note that you might need to move some of these functions to a new `impl` blocks with different trait bounds, or change the return type to use `Named` etc.");
+		Self {
+			name: self.name,
+			uid: self.uid,
+			wage: self.wage,
+			experience: experience,
+		}
 	}
 
 	pub fn wage(self, wage: u32) -> Self {
-		todo!("finish the implementation. Note that you might need to move some of these functions to a new `impl` blocks with different trait bounds, or change the return type to use `Named` etc.");
+		Self {
+			name: self.name,
+			uid: self.uid,
+			wage: wage,
+			experience: self.experience,
+		}
 	}
+}
 
+impl TypedEmployeeBuilder<Named, Identified> {
 	pub fn build(self) -> Employee {
-		todo!("finish the implementation. Note that you might need to move some of these functions to a new `impl` blocks with different trait bounds, or change the return type to use `Named` etc.");
+		Employee {
+			name: self.name.name, 
+			uid: self.uid.uid,
+			experience: self.experience,
+			wage: self.wage
+		}
 	}
 }
 
